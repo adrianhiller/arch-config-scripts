@@ -58,7 +58,7 @@ useradd -m -g users -s /bin/bash $3
 gpasswd -a $3 wheel
 echo "fertig"
 echo "Setze Benutzer-Passwort für $3 ..."
-passwd1=$(dialog ---stdout -title $3-Passwort --passwordbox "Bitte gib das $3-Passwort ein" 15 60)
+passwd1=$(dialog --stdout -title $3-Passwort --passwordbox "Bitte gib das $3-Passwort ein" 15 60)
 passwd2=$(dialog --stdout --title $3-Passwort --passwordbox "Bitte gib das $3-Passwort erneut ein" 15 60)
 echo -e "$passwd1\n$passwd2" | passwd $3
 echo "fertig"
