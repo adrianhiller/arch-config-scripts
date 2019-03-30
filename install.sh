@@ -74,13 +74,14 @@ echo "PS1='\[\033[0;37m\]\A\[\033[0m\] [\u@\h: \W]\\$ '" >> /home/$3/.bashrc
 echo "pwd" >> /home/$3/.bashrc
 
 graphic=$(dialog --stdout --backtitle graphische Oberfläche --title "Bitte auswählen" --radiolist "Welche graphische Oberfläche soll ich installieren?" 16 60 5 \
-	"i3" "installiere i3" on \
+	"i3" "installiere i3" off \
 	"MATE" "installiere MATE" off \
 	"Cinnamon" "installiere Cinnamon" off \
   "LXDE" "installiere LXDE" off \
   "Xfce" "installiere Xfce" off \
   "GNOME" "installiere GNOME" off \
-  "ohne" "keine graphische Oberfläche installieren" off)
+	"KDE" "installiere GNOME" off \
+  "ohne" "keine graphische Oberfläche installieren" on)
 
 if [$graphic=="ohne"]
   then
@@ -94,12 +95,24 @@ if [$graphic=="ohne"]
     "LXDE") ./graphic/lxde.sh $3
     "Xfce") ./graphic/xfce.sh $3
     "GNOME") ./graphic/gnome.sh $3
+		"KDE") ./graphic/kde.sh $3
 
   	*) echo "Das war wohl nix"
 
+		# sonstige Programme
+		echo "Installiere nützliche Programme"
+		pacman -S xorg-xdm firefox firefox-i18n-de thunar networkmanager nm-connection-editor network-manager-applet networkmanager-openvpn
+		systemctl enable xdm.service
   esac
 fi
 
+# sonstige Programme
+echo "Installiere nützliche Programme"
+pacman -S openvpn iproute2 wpa_supplicant vim sudo cups cronie feh alsa-utils pmount
+echo "Setze Rechte"
+gpasswd -a $3 audio
+gpasswd -a $3 wheel
+systemctl enable cronie
 # SSH
 echo "Installiere SSH ..."
 pacman -S openssh

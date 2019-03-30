@@ -1,4 +1,4 @@
-pacman -S git
+pacman -S git dialog
 cd /tmp
 git clone https://github.com/adrianhiller/arch-config-scripts
 cd arch-config-scripts
